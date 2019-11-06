@@ -338,10 +338,61 @@ class DoubleArrayTrie
             b_insert(r,rem_input_string,s_temp); //if the multinode is not same as the remaining part of the string
         }
     }
+
+    bool deletion(string x){
+        int r = 1;
+        int h = 0;
+        int t;
+        string s_temp, rem_input_string = "";
+        while (base[r] > 0)
+        {
+            t = base[r] + code(x[h]);
+
+            if (t > size || check[t] != r)
+            {
+                return false; //if the next state is not present
+            }
+            else
+            {
+                r = t;
+            }
+            h++;
+        }
+        if (h == strlen(x.c_str()))
+        {
+            base[r] = 0;check[r] = 0;
+            return true;
+        }
+        else
+        {
+            s_temp = fetch_str(-base[r] - 1);
+        }
+        for (int i = h; i < strlen(x.c_str()); i++)
+        {
+            rem_input_string = rem_input_string + x[i];
+        }
+        if (str_cmp(rem_input_string, s_temp) == -1)
+        {
+            base[r] = 0; check[r] = 0;
+            return true;
+        }
+        else
+        {
+            return false; //if the multinode is not same as the remaining part of the string
+        }
+    }
 };
 int main(){
     DoubleArrayTrie *dat=new DoubleArrayTrie(200);
-    ifstream file;
+    dat->insert("america#");
+    cout << dat->retrieval("america#")<< endl;
+    cout << dat->deletion("america#")<<endl;
+    cout << dat->retrieval("america#")<<endl;
+        dat->insert("america#");
+            cout << dat->retrieval("america#")<< endl;
+
+
+    /**ifstream file;
     string line;
     vector<string> words;
     file.open("google-10000-english.txt");
@@ -376,4 +427,5 @@ int main(){
     for(int i = 1;i < 10;i++)cout<<dat->check[i]<<" ";
     cout<<endl;
     //cout<<"tail : "<<dat->tail<<endl;
+    **/
 }
